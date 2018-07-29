@@ -142,6 +142,8 @@ class McManager {
             return;
         }
 
+        const afk = d[SYMBOL_MCMAMAGER_AFK];
+
         // OpenCL[/10.2.0.1:58677] logged in with entity id ...
         result = CONST_LOGGED_IN.exec(notice);
         if (null !== result) {
@@ -158,6 +160,15 @@ class McManager {
                     }
                 } catch(e) {
                     console.error(e);
+                }
+                const afk_notify = [...users].filter(u => afk[u.toLowerCase()] === true);
+                if (afk_notify.length > 0) {
+                    afk_notify.length === 1
+                        ? _this.msg(user, `The following user is currently AFK:`)
+                        : _this.msg(user, `The following users are currently AFK:`);
+                    for (const u of afk_notify) {
+                        _this.msg(user, `⚫ ${u}`);
+                    }
                 }
             }();
             // this.msg(user, 'Happy Chinese new year! 恭喜发财！ <(￣︶￣)↗[GO!]');
