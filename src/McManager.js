@@ -164,15 +164,13 @@ class McManager {
                 const afk_notify = [...users].filter(u => afk[u.toLowerCase()] === true);
                 if (afk_notify.length > 0) {
                     afk_notify.length === 1
-                        ? _this.msg(user, `The following user is currently AFK:`, 'dark_blue')
-                        : _this.msg(user, `The following users are currently AFK:`, 'dark_blue');
+                        ? _this.msg(user, `The following user is currently AFK:`, 'aqua')
+                        : _this.msg(user, `The following users are currently AFK:`, 'aqua');
                     for (const u of afk_notify) {
-                        _this.msg(user, `    ◆ ${u}`, 'dark_blue');
+                        _this.msg(user, `    ◆ ${u}`, 'aqua');
                     }
                 }
             }();
-            // this.msg(user, 'Happy Chinese new year! 恭喜发财！ <(￣︶￣)↗[GO!]');
-            // this.msg(user, 'Happy Birthday To Rachel! 不要怂就是干！ <(￣︶￣)↗[GO!]');
             return;
         }
 
