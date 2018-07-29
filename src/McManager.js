@@ -164,10 +164,10 @@ class McManager {
                 const afk_notify = [...users].filter(u => afk[u.toLowerCase()] === true);
                 if (afk_notify.length > 0) {
                     afk_notify.length === 1
-                        ? _this.msg(user, `The following user is currently AFK:`)
-                        : _this.msg(user, `The following users are currently AFK:`);
+                        ? _this.msg(user, `The following user is currently AFK:`, 'dark_blue')
+                        : _this.msg(user, `The following users are currently AFK:`, 'dark_blue');
                     for (const u of afk_notify) {
-                        _this.msg(user, `⚫ ${u}`);
+                        _this.msg(user, `    ◆ ${u}`, 'dark_blue');
                     }
                 }
             }();
@@ -214,10 +214,10 @@ class McManager {
         mc.stdin.write(`/tellraw @a ["",${JSON.stringify({ "text": message, "color": 'green' })},{"text":" (If any command is abused, please report to OpenCL.)","color":"dark_red"}]\r\n`);
     }
 
-    msg(user, message) {
+    msg(user, message, color) {
         const d = this._data;
         const mc = d[SYMBOL_MCMANAGER_MC];
-        mc.stdin.write(`/tellraw ${user} ["",${JSON.stringify({ "text": message, "color": 'yellow' })}]\r\n`);
+        mc.stdin.write(`/tellraw ${user} ["",${JSON.stringify({ "text": message, "color": color || 'yellow' })}]\r\n`);
     }
 
     kickUser(target, user) {
@@ -255,11 +255,12 @@ class McManager {
     setAfk(user, state) {
         const d = this._data;
         const s = state.toLowerCase();
+        const afk = d[SYMBOL_MCMAMAGER_AFK];
         if (s === 'on') {
-            d[SYMBOL_MCMAMAGER_AFK][user.toLowerCase()] = true;
+            afk[user.toLowerCase()] = true;
             this.broadcast(`Player "${user}" is settings himself/herself to AFK. (－_－) zzZ`);
         } else if (s === 'off') {
-            d[SYMBOL_MCMAMAGER_AFK][user.toLowerCase()] = false;
+            afk[user.toLowerCase()] = false;
             this.broadcast(`Player "${user}" is settings himself/herself back to online. (。ﾟωﾟ) ﾊｯ!`);
         } else {
             this.msg(user, `Only "on" or "off" is allowed after afk directive.`);
